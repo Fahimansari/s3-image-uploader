@@ -1,10 +1,14 @@
 import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import dotenv from 'dotenv';
+dotenv.config();
+
+
 
 import * as fs from "fs";
 import express from 'express';
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT;
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
