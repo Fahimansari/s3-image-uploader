@@ -12,9 +12,23 @@
   }
   ```
 */
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid'
+"use client"
+import NotUploaded from "../components/NotUploaded";
+import Uploaded from "../components/Uploaded"
+import { useState } from "react";
 
 export default function Example() {
+
+    const [uploaded, setUploaded] = useState(false)
+    type MyFunctionType = (val: boolean) => void;
+
+
+
+    const handleChange:MyFunctionType = (val) => {
+        setUploaded(val)
+    }
+
+
   return (
     <form className="flex justify-center items-center h-screen">
       <div className="space-y-12">
@@ -48,7 +62,7 @@ export default function Example() {
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
                   
                   <input
-                    type="text"
+                    type="password"
                     name="website"
                     id="website"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
@@ -65,22 +79,7 @@ export default function Example() {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Image
               </label>
-              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                <div className="text-center">
-                  <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" aria-hidden="true" />
-                  <div className="mt-4 flex text-sm leading-6 text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-                    >
-                      <span>Upload a file</span>
-                      <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs leading-5 text-gray-600">JPG up to 10MB</p>
-                </div>
-              </div>
+              {uploaded? <Uploaded /> : <NotUploaded onUpload={handleChange}/>}
             </div>
           </div>
         </div>
