@@ -4,8 +4,8 @@ import dotenv from 'dotenv';
 import cors from "cors";
 
 //Function Imports
-import uploadImage from "./uploader";
-import getLink from "./getLink";
+import uploadImage from "./functions/uploader";
+import getLink from "./functions/getLink";
 
 dotenv.config();
 const app = express();
