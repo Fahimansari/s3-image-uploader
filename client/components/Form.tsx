@@ -13,7 +13,7 @@
   ```
 */
 "use client"
-import NotUploaded from "../components/NotUploaded";
+import ImageUploader from "./ImageUploader";
 import Uploaded from "../components/Uploaded"
 import { useState } from "react";
 
@@ -79,7 +79,7 @@ export default function Example() {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Image
               </label>
-              {uploaded? <Uploaded /> : <NotUploaded onUpload={handleChange}/>}
+              <ImageUploader onUpload={handleChange}/>
             </div>
           </div>
         </div>
