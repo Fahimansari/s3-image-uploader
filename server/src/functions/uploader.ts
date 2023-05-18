@@ -36,11 +36,6 @@ async function uploadImage() {
   })
 
   return s3Client.send(putObjectCommand)
-
-
-
-
-
 }
 
 export default uploadImage

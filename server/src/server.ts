@@ -2,15 +2,22 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
+import { Request, Response } from "express";
+import multer from "multer";
+
 
 //Function Imports
 import uploadImage from "./functions/uploader";
 import getLink from "./functions/getLink";
+// import { Request } from 'aws-sdk';
 
 dotenv.config();
 const app = express();
+const upload = multer()
 const port = process.env.PORT;
 app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
@@ -42,6 +49,19 @@ app.get('/test', (req, res) => {
   
   res.send(`The front end is connected with the backend`)
 })
+
+
+app.post('/test-form', upload.none(), (req: Request, res: Response) => {
+  const value1 =  req.body.data1;
+  const value2 =  req.body.data2;
+
+  console.log(req.body);
+  
+  console.log("Value 1:", value1);
+  console.log("Value 2:", value2);
+
+  res.sendStatus(200);
+}); 
 
 
 
