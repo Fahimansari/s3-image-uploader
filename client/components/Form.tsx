@@ -5,8 +5,13 @@ import { useState, useRef } from "react";
 import axios from "axios";
 
 
-const baseUrl = process.env.HOST
-console.log(baseUrl);
+
+console.log(process.env.NEXT_PUBLIC_HOSTNAME);
+console.log(process.env.NEXT_PUBLIC_PORT);
+
+
+const baseUrl = `http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.NEXT_PUBLIC_PORT}`
+console.log(`base URL ${baseUrl}`);
 
 
 export default function Form() {
@@ -42,22 +47,15 @@ export default function Form() {
         formData.append("data1", access_ID);
         formData.append("data2", secret_Access_Key);
         
-        if (file) {
+        if (file) 
           formData.append('image', file);
           
-        }
-
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/test-form`, formData);
-
-        
+        const response = await axios.post(`http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.NEXT_PUBLIC_PORT}/test-form`, formData);
         console.log(response.data);
       } catch (error) {
-        
         console.error(error);
       }
     }
-
-
   }
 
   return (
@@ -103,9 +101,6 @@ export default function Form() {
               </div>
             </div>
 
-
-
-
             <div className="col-span-full">
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Image
@@ -130,3 +125,4 @@ export default function Form() {
     </form>
   )
 }
+
