@@ -39,7 +39,7 @@ const PORT = process.env.PORT;
 
 
 
-/////                           GET Routes Start Here                      /////
+/////                           GET Routes Starts Here                      /////
 
 app.get('/', (req, res) => {
   res.send('This API Route is a TEST ROUTE and it is working fine');
@@ -69,13 +69,23 @@ app.get('/test', (req, res) => {
   res.send(`The front end is connected with the backend`)
 })
 
+/////                           GET Routes Ends Here                      /////
+
+
 
 /////                          POST Routes Starts Here                    /////
 
 app.post('/test-form', upload.single('image'), (req: Request, res: Response) => {
   const value1 =  req.body.data1;
   const value2 =  req.body.data2;
+  
+  const fileName = req.file?.originalname
+  console.log(`Original Name: ${fileName}`);
+  
+  
   if (!req.file) {
+    console.log(`This is the 400 block`);
+    
     res.status(400).json({ error: "No file received" });
     return;
   }
@@ -83,9 +93,14 @@ app.post('/test-form', upload.single('image'), (req: Request, res: Response) => 
   console.log("Received file:", req.file);
   console.log("Value 1:", value1);
   console.log("Value 2:", value2);
+  console.log(`File type ${typeof(req.file)}`);
+  
 
   res.status(200).json({ message: "File received" });
 }); 
+
+/////                          POST Routes Ends Here                    /////
+
 
 
 //SERVER LISTENING

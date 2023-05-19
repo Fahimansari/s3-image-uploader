@@ -1,31 +1,27 @@
-
+//Package Imports
 "use client"
 import ImageUploader from "./ImageUploader";
 import { useState, useRef } from "react";
 import axios from "axios";
 
-
-
-console.log(process.env.NEXT_PUBLIC_HOSTNAME);
-console.log(process.env.NEXT_PUBLIC_PORT);
-
-
-const baseUrl = `http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.NEXT_PUBLIC_PORT}`
-console.log(`base URL ${baseUrl}`);
+const HOSTNAME = process.env.NEXT_PUBLIC_HOSTNAME
+const PORT = process.env.NEXT_PUBLIC_PORT
+const baseUrl = `http://${HOSTNAME}:${PORT}`
 
 
 export default function Form() {
 
-
   const [uploaded, setUploaded] = useState(false)
-  const [accessID, setAccessID] = useState<string>("")
-  const [secret_AccessKey, setSecret_AccessKey] = useState<string>("")
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   type MyFunctionType = (val: boolean) => void;
   const accessKeyIdRef = useRef<HTMLInputElement>(null);
   const secretAccessKeyRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
+
+
+/////                  Event-Handling Functions Starts Here               /////
 
   const handleChange: MyFunctionType = (val) => {
     setUploaded(val)
@@ -39,24 +35,33 @@ export default function Form() {
       const secret_Access_Key = secretAccessKeyRef.current.value
 
       const formData = new FormData();
-      const file = fileInputRef.current?.files?.[0];
-
       
+      
+      const file = selectedFile
+      console.log(`This is ${file?.name}`);
+
       try {
         
         formData.append("data1", access_ID);
         formData.append("data2", secret_Access_Key);
         
-        if (file) 
+        if (file){ 
           formData.append('image', file);
+          console.log(`Dit it reach here?`);
+          console.log(baseUrl);
           
-        const response = await axios.post(`http://${process.env.NEXT_PUBLIC_HOSTNAME}:${process.env.NEXT_PUBLIC_PORT}/test-form`, formData);
-        console.log(response.data);
+        }
+          
+        const response = await axios.post(`${baseUrl}/test-form`, formData);
+        // console.log(response.data);
       } catch (error) {
         console.error(error);
       }
     }
   }
+
+  /////                  Event-Handling Functions Ends Here               /////
+
 
   return (
     <form className="flex justify-center items-center h-screen">
@@ -105,7 +110,7 @@ export default function Form() {
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Image
               </label>
-              <ImageUploader onUpload={handleChange} />
+              <ImageUploader onUpload={handleChange} selectedFile = {selectedFile} setSelectedFile={setSelectedFile} fileInputRef={fileInputRef}/>
             </div>
           </div>
         </div>
