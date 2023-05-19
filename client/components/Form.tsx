@@ -16,10 +16,18 @@
 import ImageUploader from "./ImageUploader";
 import Uploaded from "../components/Uploaded"
 import { useState, useRef } from "react";
-import { access } from "fs";
+
 import axios from "axios";
+import * as dotenv from 'dotenv'
+
+
+
+const baseUrl = process.env.HOST
+console.log(baseUrl);
+
 
 export default function Form() {
+
 
   const [uploaded, setUploaded] = useState(false)
   const [accessID, setAccessID] = useState<string>("")
@@ -27,6 +35,7 @@ export default function Form() {
   type MyFunctionType = (val: boolean) => void;
   const accessKeyIdRef = useRef<HTMLInputElement>(null);
   const secretAccessKeyRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
 
 
@@ -36,30 +45,27 @@ export default function Form() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(accessKeyIdRef.current && secretAccessKeyRef.current)  {
+    if (accessKeyIdRef.current && secretAccessKeyRef.current) {
 
       const access_ID = accessKeyIdRef.current.value
       const secret_Access_Key = secretAccessKeyRef.current.value
-      
+
       const formData = new FormData();
-      
+      const file = fileInputRef.current?.files?.[0];
+
       
       try {
-        // Send the form data to the backend using axios
-        // console.log(access_ID);
-        // console.log(secret_Access_Key)
         
         formData.append("data1", access_ID);
         formData.append("data2", secret_Access_Key);
-  
-        for (const pair of formData.entries()) {
-          console.log(pair[0], pair[1]);
+        
+        if (file) {
+          formData.append('image', file);
+          // ... perform further operations with the formData
         }
-        
-        
-        
-        const response = await axios.post('http://localhost:5001/test-form', formData);
-  
+
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/test-form`, formData);
+
         // Handle the response from the backend
         console.log(response.data);
       } catch (error) {
@@ -68,8 +74,7 @@ export default function Form() {
       }
     }
 
-     // Create a new FormData object
- 
+
   }
 
   return (
@@ -118,12 +123,12 @@ export default function Form() {
 
 
 
-            {/* <div className="col-span-full">
+            <div className="col-span-full">
               <label htmlFor="cover-photo" className="block text-sm font-medium leading-6 text-gray-900">
                 Image
               </label>
-              <ImageUploader onUpload={handleChange}/>
-            </div> */}
+              <ImageUploader onUpload={handleChange} />
+            </div>
           </div>
         </div>
 
