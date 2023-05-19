@@ -1,10 +1,14 @@
-import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
+//Package Imports
 import * as dotenv from "dotenv";
 
-dotenv.config()
 
+//Interface and Type Declarations and Initializations
+
+dotenv.config()
 const awsRegion = process.env.AWS_REGION
 
+
+//Main  Function
 
 async function getLink() {
     const bucketName = "samp-bucket-test2";

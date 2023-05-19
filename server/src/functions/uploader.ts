@@ -1,8 +1,15 @@
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+//Package Imports
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import * as fs from "fs";
 import * as dotenv from "dotenv";
 
+
+//Interfaces, Type Declarations and Initializations
+
 dotenv.config()
+
+
+//Main Function
 
 async function uploadImage() {
   const s3Client = new S3Client({
@@ -17,23 +24,12 @@ async function uploadImage() {
   const fileName = "abhijith.jpg";
   const filePath = "abhijith.jpg";
   const fileContent = fs.readFileSync(filePath);
-
-
-
   const putObjectCommand = new PutObjectCommand({
     Bucket: bucketName,
     Key: fileName,
     Body: fileContent,
     ContentType: "image/jpeg",
-    //   ACL: 'public-read'
   });
-
-
-  const getObjectCommand = new GetObjectCommand({
-    Bucket: bucketName,
-    Key: fileName
-
-  })
 
   return s3Client.send(putObjectCommand)
 }

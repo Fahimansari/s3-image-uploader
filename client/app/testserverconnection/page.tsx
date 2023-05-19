@@ -9,8 +9,8 @@ const TestServer = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5001/test');
-        console.log(`This is ${process.env.HOST}`);
+        const { data } = await axios.get('http://localhost:5005/test');
+        console.log(`This is ${process.env.NEXT_PUBLIC_HOST}`);
         
         setResponse(data);
       } catch (error) {
