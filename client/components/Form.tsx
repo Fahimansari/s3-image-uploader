@@ -1,25 +1,8 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
+
 "use client"
 import ImageUploader from "./ImageUploader";
-import Uploaded from "../components/Uploaded"
 import { useState, useRef } from "react";
-
 import axios from "axios";
-import * as dotenv from 'dotenv'
-
 
 
 const baseUrl = process.env.HOST
@@ -61,15 +44,15 @@ export default function Form() {
         
         if (file) {
           formData.append('image', file);
-          // ... perform further operations with the formData
+          
         }
 
         const response = await axios.post(`${process.env.NEXT_PUBLIC_HOST}/test-form`, formData);
 
-        // Handle the response from the backend
+        
         console.log(response.data);
       } catch (error) {
-        // Handle errors
+        
         console.error(error);
       }
     }
