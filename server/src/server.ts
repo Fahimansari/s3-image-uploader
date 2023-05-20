@@ -4,9 +4,14 @@ import dotenv from 'dotenv';
 import cors from "cors";
 import multer, { Multer, File } from "multer";
 import { v4 as uuidv4 } from "uuid";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import * as fs from "fs";
+
+
 //Function Imports
-import uploadImage from "./functions/uploader";
+
 import getLink from "./functions/getLink";
+
 
 //Interface and Type Declarations and Initializations
 declare global {
@@ -34,6 +39,30 @@ app.use(express.urlencoded({ extended: true }));
 const upload = multer({ storage });
 const PORT = process.env.PORT;
 
+
+
+async function uploadImage() {
+  const s3Client = new S3Client({
+    region: "ap-south-1",
+    credentials: {
+      accessKeyId: process.env.ACCESS_KEY_ID,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    },
+  });
+
+  const bucketName = "samp-bucket-test2";
+  const fileName = "christin.jpg";
+  const filePath = "abhijith.jpg";
+  const fileContent = fs.readFileSync(filePath);
+  const putObjectCommand = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    Body: fileContent,
+    ContentType: "image/jpeg",
+  });
+
+  return s3Client.send(putObjectCommand)
+}
 
 //////////                     API Routes Starts Here               ///////////
 
@@ -75,14 +104,36 @@ app.get('/test', (req, res) => {
 
 /////                          POST Routes Starts Here                    /////
 
-app.post('/test-form', upload.single('image'), (req: Request, res: Response) => {
+app.post('/test-form', upload.single('image'), async (req: Request, res: Response) => {
   const value1 =  req.body.data1;
   const value2 =  req.body.data2;
-  
   const fileName = req.file?.originalname
-  console.log(`Original Name: ${fileName}`);
+  const filePath = req.file?.path
+  console.log(`Original Path: ${filePath}`);
   
-  
+  const fileData = fs.readFileSync(filePath)
+
+  const s3Client = new S3Client({
+    region: "ap-south-1",
+    credentials: {
+      accessKeyId: process.env.ACCESS_KEY_ID,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    },
+  });
+
+  const bucketName = "samp-bucket-test2";
+
+  const putObjectCommand = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: fileName,
+    Body: filePath,
+    ContentType: "image/jpeg",
+  });
+
+   s3Client.send(putObjectCommand).then((data) => {
+    console.log(`File uploaded successfully. File URL: ${data}`);
+    
+  })
   if (!req.file) {
     console.log(`This is the 400 block`);
     
