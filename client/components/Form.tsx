@@ -40,18 +40,21 @@ export default function Form() {
       const access_ID = accessKeyIdRef.current.value
       const secret_Access_Key = secretAccessKeyRef.current.value
       const bucket_Name = bucketNameRef.current.value
+      const region_Name = regionNameRef.current.value
       console.log(`Hy From ${regionNameRef.current.value} \n ${accessKeyIdRef.current.value} \n ${bucketNameRef.current.value} \n ${secretAccessKeyRef.current.value}`);
       
       const formData = new FormData();
       
-      
+
       const file = selectedFile
-      console.log(`This is ${file?.name}`);
+      
 
       try {
         
-        formData.append("data1", access_ID);
-        formData.append("data2", secret_Access_Key);
+        formData.append("access_ID", access_ID);
+        formData.append("secret_Access_Key", secret_Access_Key);
+        formData.append("bucket_Name", bucket_Name);
+        formData.append("region_Name", region_Name);
         
         if (file){ 
           formData.append('image', file);

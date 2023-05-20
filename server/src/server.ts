@@ -1,5 +1,5 @@
 //Package Imports
-import express, { Request, Response }  from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
 import multer, { Multer, File } from "multer";
@@ -94,7 +94,7 @@ app.get('/link', (req, res) => {
 })
 
 app.get('/test', (req, res) => {
-  console.log(`test url called`);  
+  console.log(`test url called`);
   res.send(`The front end is connected with the backend`)
 })
 
@@ -105,12 +105,23 @@ app.get('/test', (req, res) => {
 /////                          POST Routes Starts Here                    /////
 
 app.post('/test-form', upload.single('image'), async (req: Request, res: Response) => {
-  const value1 =  req.body.data1;
-  const value2 =  req.body.data2;
+  const access_ID = req.body.access_ID;
+  const secret_Access_Key = req.body.secret_Access_Key; ''
+  const bucket_Name = req.body.bucket_Name;
+  const region_Name = req.body.region_Name;
+
+console.log(req.body);
+
+
+  console.log(`value1 ${access_ID}`);
+  console.log(`value2 ${secret_Access_Key}`);
+  console.log(`value3 ${bucket_Name}`);
+  console.log(`value4 ${region_Name}`);
+
+  
+  
   const fileName = req.file?.originalname
   const filePath = req.file?.path
-  console.log(`Original Path: ${filePath}`);
-  
   const fileData = fs.readFileSync(filePath)
 
   const s3Client = new S3Client({
@@ -130,25 +141,19 @@ app.post('/test-form', upload.single('image'), async (req: Request, res: Respons
     ContentType: "image/jpeg",
   });
 
-   s3Client.send(putObjectCommand).then((data) => {
+  s3Client.send(putObjectCommand).then((data) => {
     console.log(`File uploaded successfully. File URL: ${data}`);
-    
+
   })
   if (!req.file) {
     console.log(`This is the 400 block`);
-    
+
     res.status(400).json({ error: "No file received" });
     return;
   }
-  
-  console.log("Received file:", req.file);
-  console.log("Value 1:", value1);
-  console.log("Value 2:", value2);
-  console.log(`File type ${typeof(req.file)}`);
-  
 
   res.status(200).json({ message: "File received" });
-}); 
+});
 
 /////                          POST Routes Ends Here                    /////
 
