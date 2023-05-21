@@ -125,14 +125,14 @@ console.log(req.body);
   const fileData = fs.readFileSync(filePath)
 
   const s3Client = new S3Client({
-    region: "ap-south-1",
+    region: region_Name,
     credentials: {
-      accessKeyId: process.env.ACCESS_KEY_ID,
-      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+      accessKeyId: access_ID,
+      secretAccessKey: secret_Access_Key,
     },
   });
 
-  const bucketName = "samp-bucket-test2";
+  const bucketName = bucket_Name;
 
   const putObjectCommand = new PutObjectCommand({
     Bucket: bucketName,

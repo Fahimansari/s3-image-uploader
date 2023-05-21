@@ -24,7 +24,9 @@ export default function Form() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
 
-
+const ACCESS_ID = process.env.NEXT_PUBLIC_ACCESS_KEY_ID
+const SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY
+const BUCKET_NAME = `samp-bucket-test2`
 
 
 /////                  Event-Handling Functions Starts Here               /////
@@ -43,6 +45,9 @@ export default function Form() {
       const region_Name = regionNameRef.current.value
       console.log(`Hy From ${regionNameRef.current.value} \n ${accessKeyIdRef.current.value} \n ${bucketNameRef.current.value} \n ${secretAccessKeyRef.current.value}`);
       
+
+
+
       const formData = new FormData();
       
 
@@ -94,6 +99,7 @@ export default function Form() {
                     id="website"
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Access ID here"
+                    defaultValue={ACCESS_ID}
                   />
                 </div>
               </div>
@@ -108,10 +114,11 @@ export default function Form() {
 
                   <input
                     type="password"
-                    name="access-key"
-                    id="access-key" ref={secretAccessKeyRef}
+                    name="secret-access-key"
+                    id="secret-access-key" ref={secretAccessKeyRef}
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Secret Access Key here"
+                    defaultValue={SECRET_ACCESS_KEY}
                   />
                 </div>
               </div>
@@ -125,11 +132,12 @@ export default function Form() {
                 <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
 
                   <input
-                    type="password"
-                    name="access-key"
-                    id="access-key" ref={bucketNameRef}
+                    type="text"
+                    name="bucket-name"
+                    id="bucket-name" ref={bucketNameRef}
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="Secret Access Key here"
+                    placeholder="Bucket Name here"
+                    defaultValue={BUCKET_NAME}
                   />
                 </div>
               </div>
@@ -147,7 +155,7 @@ export default function Form() {
                   ref={regionNameRef}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
                 >
-                  <option value="">-- Select Region --</option>
+                  <option key= "ap-south-1" value="ap-south-1">ap-south-1</option>
         {S3RegionKeywords.map((region) => (
           <option key={region} value={region}>{region}</option>
         ))}
