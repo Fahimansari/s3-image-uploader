@@ -24,10 +24,9 @@ export default function Form() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   
 
-const ACCESS_ID = process.env.NEXT_PUBLIC_ACCESS_KEY_ID
-const SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY
-const BUCKET_NAME = `samp-bucket-test2`
-
+  const ACCESS_ID = process.env.NEXT_PUBLIC_ACCESS_KEY_ID;
+  const SECRET_ACCESS_KEY = process.env.NEXT_PUBLIC_SECRET_ACCESS_KEY;
+  const BUCKET_NAME = process.env.NEXT_PUBLIC_BUCKET_NAME;
 
 /////                  Event-Handling Functions Starts Here               /////
 
@@ -39,37 +38,27 @@ const BUCKET_NAME = `samp-bucket-test2`
     e.preventDefault();
     if (accessKeyIdRef.current && secretAccessKeyRef.current && bucketNameRef.current && regionNameRef.current) {
 
-      const access_ID = accessKeyIdRef.current.value
-      const secret_Access_Key = secretAccessKeyRef.current.value
-      const bucket_Name = bucketNameRef.current.value
-      const region_Name = regionNameRef.current.value
-      console.log(`Hy From ${regionNameRef.current.value} \n ${accessKeyIdRef.current.value} \n ${bucketNameRef.current.value} \n ${secretAccessKeyRef.current.value}`);
-      
-
-
+      const access_ID = accessKeyIdRef.current.value;
+      const secret_Access_Key = secretAccessKeyRef.current.value;
+      const bucket_Name = bucketNameRef.current.value;
+      const region_Name = regionNameRef.current.value;
+      const file = selectedFile;
 
       const formData = new FormData();
       
 
-      const file = selectedFile
       
 
       try {
         
-        formData.append("access_ID", access_ID);
-        formData.append("secret_Access_Key", secret_Access_Key);
-        formData.append("bucket_Name", bucket_Name);
-        formData.append("region_Name", region_Name);
-        
-        if (file){ 
-          formData.append('image', file);
-          console.log(`Dit it reach here?`);
-          console.log(baseUrl);
+              formData.append("access_ID", access_ID);
+              formData.append("secret_Access_Key", secret_Access_Key);
+              formData.append("bucket_Name", bucket_Name);
+              formData.append("region_Name", region_Name);
+        file? formData.append('image', file): {}          
           
-        }
-          
-        const response = await axios.post(`${baseUrl}/test-form`, formData);
-        // console.log(response.data);
+        const response = await axios.post(`${baseUrl}/upload`, formData);
+
       } catch (error) {
         console.error(error);
       }

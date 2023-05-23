@@ -1,5 +1,5 @@
 import { PhotoIcon } from '@heroicons/react/24/solid'
-import { useState, RefObject } from "react";
+import { RefObject } from "react";
 import Uploaded from "../components/Uploaded";
 
 interface ImageUploaderProps {
@@ -17,7 +17,6 @@ export default function ImageUploader({ onUpload, selectedFile, setSelectedFile,
     console.log("Yes this is success");
 
     setSelectedFile(fileInputRef.current?.files?.[0] || null);
-    console.log(selectedFile);
     
   };
 
