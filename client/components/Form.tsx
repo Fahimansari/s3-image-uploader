@@ -36,7 +36,13 @@ export default function Form() {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (accessKeyIdRef.current && secretAccessKeyRef.current && bucketNameRef.current && regionNameRef.current) {
+    if (accessKeyIdRef.current?.value || secretAccessKeyRef.current?.value || bucketNameRef.current?.value || regionNameRef.current?.value || selectedFile) {
+      alert("Hy there")
+    }
+
+    
+    
+    if (accessKeyIdRef.current?.value && secretAccessKeyRef.current?.value && bucketNameRef.current?.value && regionNameRef.current?.value && selectedFile) {
 
       const access_ID = accessKeyIdRef.current.value;
       const secret_Access_Key = secretAccessKeyRef.current.value;
@@ -65,6 +71,7 @@ export default function Form() {
     }
   }
 
+
   /////                  Event-Handling Functions Ends Here               /////
 
 
@@ -89,6 +96,7 @@ export default function Form() {
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Access ID here"
                     defaultValue={ACCESS_ID}
+                    required
                   />
                 </div>
               </div>
@@ -108,6 +116,7 @@ export default function Form() {
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Secret Access Key here"
                     defaultValue={SECRET_ACCESS_KEY}
+                    required
                   />
                 </div>
               </div>
@@ -127,6 +136,7 @@ export default function Form() {
                     className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                     placeholder="Bucket Name here"
                     defaultValue={BUCKET_NAME}
+                    required
                   />
                 </div>
               </div>
@@ -143,6 +153,7 @@ export default function Form() {
                   autoComplete="country-name"
                   ref={regionNameRef}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                  required
                 >
                   <option key= "ap-south-1" value="ap-south-1">ap-south-1</option>
         {S3RegionKeywords.map((region) => (
