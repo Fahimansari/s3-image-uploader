@@ -37,7 +37,7 @@ export default function Form() {
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (accessKeyIdRef.current?.value || secretAccessKeyRef.current?.value || bucketNameRef.current?.value || regionNameRef.current?.value || selectedFile) {
-      alert("Hy there")
+      alert("You have missed to fill a field")
     }
 
     
