@@ -10,7 +10,7 @@ interface ImageUploaderProps {
 
 }
 
-export default function ImageUploader({ onUpload, selectedFile, setSelectedFile, fileInputRef }: ImageUploaderProps) {
+export default function ImageUploader({  selectedFile, setSelectedFile, fileInputRef }: ImageUploaderProps) {
 
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
