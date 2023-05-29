@@ -65,10 +65,18 @@ export default function Form() {
               formData.append("region_Name", region_Name);
         file? formData.append('image', file): {}          
           
-        const response = await axios.post(`${baseUrl}/upload`, formData);
+      
+          const response = await axios.post(`${baseUrl}/upload`, formData);
+        
 
-      } catch (error) {
-        console.error(error);
+        
+// console.log(response.status);
+
+      } catch (error : any) {
+        console.log(`We reached here`);
+        
+        console.error(error.response.data);
+        
       }
     }
   }

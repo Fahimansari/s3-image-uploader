@@ -90,10 +90,14 @@ app.post('/upload', upload.single('image'), async (req: Request, res: Response) 
 
   s3Client.send(putObjectCommand).then((data) => {
     console.log(`File uploaded successfully. ETag: ${data.ETag}`);
-  }).catch((err) => {console.log(err.$metadata.httpStatusCode)});
+    res.status(200).json({ message: "File received" });
+  }).catch((err) => {console.log(err.Code)
+  res.status(403).json({
+    errorCode: "Invalid Form Data",
+    message: "One of the Entered Value is Wrong"
+  })});
   
 
-  res.status(200).json({ message: "File received" });
 });
 
 /////                          POST Routes Ends Here                    /////
